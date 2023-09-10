@@ -75,11 +75,10 @@
             app:layout_constraintTop_toBottomOf="@+id/name" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
+            android:id="@+id/catRecyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
-            tools:listitem="@layout/categoryitem"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
