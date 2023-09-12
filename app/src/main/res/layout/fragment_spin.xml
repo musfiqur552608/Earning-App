@@ -94,7 +94,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/spinWheel"
             android:layout_width="180dp"
             android:layout_height="200dp"
             android:src="@drawable/mainspin"
@@ -109,12 +109,13 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/stoper"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+            app:layout_constraintBottom_toBottomOf="@+id/spinWheel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView4" />
+            app:layout_constraintTop_toTopOf="@+id/spinWheel" />
 
         <Button
+            android:id="@+id/spinBtn"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#B3FFFFFF"
