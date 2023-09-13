@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.earningapp.R
+import com.example.earningapp.WithdrawalFragment
 import com.example.earningapp.adapter.CategoryAdapter
 import com.example.earningapp.databinding.FragmentHomeBinding
 import com.example.earningapp.model.categoryModelClass
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,7 +30,16 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        binding.coin.setOnClickListener {
+            val bottomSheetDialogFragment:BottomSheetDialogFragment = WithdrawalFragment()
+            bottomSheetDialogFragment.show(requireActivity().supportFragmentManager, "TEST")
+            bottomSheetDialogFragment.enterTransition
+        }
+        binding.coinTxt.setOnClickListener {
+            val bottomSheetDialogFragment:BottomSheetDialogFragment = WithdrawalFragment()
+            bottomSheetDialogFragment.show(requireActivity().supportFragmentManager, "TEST")
+            bottomSheetDialogFragment.enterTransition
+        }
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
