@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.earningapp.R
+import com.example.earningapp.WithdrawalFragment
 import com.example.earningapp.adapter.CategoryAdapter
 import com.example.earningapp.adapter.HistoryAdaptar
 import com.example.earningapp.databinding.FragmentHistoryBinding
 import com.example.earningapp.databinding.FragmentHomeBinding
 import com.example.earningapp.model.HistoryModelClass
 import com.example.earningapp.model.categoryModelClass
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class HistoryFragment : Fragment() {
     val binding by lazy {
@@ -37,6 +39,16 @@ class HistoryFragment : Fragment() {
         var adapter = HistoryAdaptar(listHistory)
         binding.historyRecycle.adapter = adapter
         binding.historyRecycle.setHasFixedSize(true)
+        binding.coin.setOnClickListener {
+            val bottomSheetDialogFragment: BottomSheetDialogFragment = WithdrawalFragment()
+            bottomSheetDialogFragment.show(requireActivity().supportFragmentManager, "TEST")
+            bottomSheetDialogFragment.enterTransition
+        }
+        binding.coinTxt.setOnClickListener {
+            val bottomSheetDialogFragment: BottomSheetDialogFragment = WithdrawalFragment()
+            bottomSheetDialogFragment.show(requireActivity().supportFragmentManager, "TEST")
+            bottomSheetDialogFragment.enterTransition
+        }
         return binding.root
     }
 

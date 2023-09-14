@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.example.earningapp.WithdrawalFragment
 import com.example.earningapp.databinding.FragmentSpinBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.Random
 
 
@@ -28,6 +30,16 @@ class SpinFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSpinBinding.inflate(inflater, container, false)
+        binding.coin.setOnClickListener {
+            val bottomSheetDialogFragment: BottomSheetDialogFragment = WithdrawalFragment()
+            bottomSheetDialogFragment.show(requireActivity().supportFragmentManager, "TEST")
+            bottomSheetDialogFragment.enterTransition
+        }
+        binding.coinTxt.setOnClickListener {
+            val bottomSheetDialogFragment: BottomSheetDialogFragment = WithdrawalFragment()
+            bottomSheetDialogFragment.show(requireActivity().supportFragmentManager, "TEST")
+            bottomSheetDialogFragment.enterTransition
+        }
         return binding.root
     }
     private fun showResult(itemTitle:String){
