@@ -25,7 +25,13 @@ class HomeFragment : Fragment() {
         FragmentHomeBinding.inflate(layoutInflater)
     }
     private var categoryList = ArrayList<categoryModelClass>()
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        categoryList.add(categoryModelClass(R.drawable.c, "Learn C"))
+        categoryList.add(categoryModelClass(R.drawable.cplus, "Learn C++"))
+        categoryList.add(categoryModelClass(R.drawable.java, "Learn JAVA"))
+        categoryList.add(categoryModelClass(R.drawable.python, "Learn Python"))
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,13 +50,9 @@ class HomeFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        categoryList.add(categoryModelClass(R.drawable.c, "Learn C"))
-        categoryList.add(categoryModelClass(R.drawable.cplus, "Learn C++"))
-        categoryList.add(categoryModelClass(R.drawable.java, "Learn JAVA"))
-        categoryList.add(categoryModelClass(R.drawable.python, "Learn Python"))
         binding.catRecyclerview.layoutManager= GridLayoutManager(requireContext(),2)
 
-        var adapter = CategoryAdapter(categoryList)
+        var adapter = CategoryAdapter(categoryList, requireActivity())
         binding.catRecyclerview.adapter = adapter
         binding.catRecyclerview.setHasFixedSize(true)
     }

@@ -29,6 +29,7 @@
             android:layout_height="21dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:fontFamily="@font/aladin"
             android:text="Text1"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -40,12 +41,13 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
+            android:id="@+id/time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/aladin"
             android:text="Text2"
             android:textColor="@color/white"
-            android:id="@+id/time"
             app:layout_constraintBottom_toBottomOf="@+id/imageView4"
             app:layout_constraintEnd_toEndOf="@+id/textView7"
             app:layout_constraintStart_toStartOf="@+id/textView7"
@@ -55,6 +57,7 @@
             android:id="@+id/coin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/aladin"
             android:text="Text1"
             android:textColor="@color/white"
             android:textSize="18sp"
