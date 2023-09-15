@@ -30,13 +30,26 @@ class HistoryFragment : Fragment() {
         FragmentHistoryBinding.inflate(layoutInflater)
     }
     private var listHistory = ArrayList<HistoryModelClass>()
+    lateinit var adapter:HistoryAdaptar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        listHistory.add(HistoryModelClass("01:03", "200"))
-        listHistory.add(HistoryModelClass("08:06", "500"))
-        listHistory.add(HistoryModelClass("09:10", "100"))
-        listHistory.add(HistoryModelClass("04:19", "500"))
+        Firebase.database.reference.child("playerCoinHistory").child(Firebase.auth.currentUser!!.uid)
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    listHistory.clear()
+                    for(datasnapshot in snapshot.children){
+                        var data = datasnapshot.getValue(HistoryModelClass::class.java)
+                        listHistory.add(data!!)
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
     }
 
     override fun onCreateView(
@@ -44,7 +57,7 @@ class HistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View ?{
         binding.historyRecycle.layoutManager = LinearLayoutManager(requireContext())
-        var adapter = HistoryAdaptar(listHistory)
+        adapter = HistoryAdaptar(listHistory)
         binding.historyRecycle.adapter = adapter
         binding.historyRecycle.setHasFixedSize(true)
         binding.coin.setOnClickListener {

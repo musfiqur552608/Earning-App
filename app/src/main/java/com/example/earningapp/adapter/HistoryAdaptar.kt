@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.earningapp.databinding.HistoryitemBinding
 import com.example.earningapp.model.HistoryModelClass
+import java.sql.Timestamp
+import java.util.Date
 
 class HistoryAdaptar(var ListHistory: ArrayList<HistoryModelClass>) :
     RecyclerView.Adapter<HistoryAdaptar.HistoryViewHolder>() {
@@ -26,7 +28,14 @@ class HistoryAdaptar(var ListHistory: ArrayList<HistoryModelClass>) :
     override fun getItemCount() = ListHistory.size
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.binding.time.text = ListHistory[position].timeAndDate
+
+        var date = Timestamp(ListHistory.get(position).timeAndDate.toLong())
+        holder.binding.time.text = Date(date.time).toString()
+        holder.binding.status.text = if(ListHistory.get(position).isWithDrawal){
+            "Money Withdrawal"
+        }else{
+            "Money Added"
+        }
         holder.binding.coin.text = ListHistory[position].coin
     }
 

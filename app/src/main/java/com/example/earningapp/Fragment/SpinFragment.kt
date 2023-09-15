@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.earningapp.WithdrawalFragment
 import com.example.earningapp.databinding.FragmentSpinBinding
+import com.example.earningapp.model.HistoryModelClass
 import com.example.earningapp.model.User
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.ktx.auth
@@ -105,6 +106,8 @@ class SpinFragment : Fragment() {
         if(spin%2==0){
             var winCoin = itemTitle.toInt()
             Firebase.database.reference.child("playerCoin").child(Firebase.auth.currentUser!!.uid).setValue(winCoin+currentCoin)
+            var historyModelClass = HistoryModelClass(System.currentTimeMillis().toString(), winCoin.toString(),false)
+            Firebase.database.reference.child("playerCoinHistory").child(Firebase.auth.currentUser!!.uid).push().setValue(historyModelClass)
             binding.coinTxt.text = (winCoin+currentCoin).toString()
         }
         Toast.makeText(requireContext(), itemTitle, Toast.LENGTH_SHORT).show()
