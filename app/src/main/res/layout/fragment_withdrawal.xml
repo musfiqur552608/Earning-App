@@ -44,11 +44,11 @@
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/coinTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/aladin"
-            android:text="100"
+            android:text="0"
             android:textColor="#FFC107"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView10"
@@ -65,7 +65,7 @@
             android:text="1000 Coin = Rs 10"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView11"
+            app:layout_constraintEnd_toEndOf="@+id/coinTxt"
             app:layout_constraintHorizontal_bias="0.312"
             app:layout_constraintStart_toStartOf="@+id/textView10"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -85,13 +85,14 @@
             app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/amount"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="44dp"
             android:background="@drawable/edittextbackground"
             android:fontFamily="@font/aladin"
             android:hint="Enter Amount"
+            android:inputType="number"
             android:paddingLeft="10dp"
             app:layout_constraintEnd_toEndOf="@+id/textView18"
             app:layout_constraintHorizontal_bias="0.388"
@@ -99,7 +100,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/payment"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="20dp"
@@ -107,12 +108,14 @@
             android:fontFamily="@font/aladin"
             android:hint="Enter Bikash Number"
             android:paddingLeft="10dp"
+            android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/editText5"
-            app:layout_constraintTop_toBottomOf="@+id/editText5" />
+            app:layout_constraintStart_toStartOf="@+id/amount"
+            app:layout_constraintTop_toBottomOf="@+id/amount" />
 
         <Button
+            android:id="@+id/transfer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="68dp"
@@ -121,10 +124,10 @@
             android:text="Transfer Amount"
             android:textColor="@color/black"
             app:cornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="@+id/editText6"
-            app:layout_constraintHorizontal_bias="0.417"
-            app:layout_constraintStart_toStartOf="@+id/editText6"
-            app:layout_constraintTop_toBottomOf="@+id/editText6" />
+            app:layout_constraintEnd_toEndOf="@+id/payment"
+            app:layout_constraintHorizontal_bias="0.45"
+            app:layout_constraintStart_toStartOf="@+id/payment"
+            app:layout_constraintTop_toBottomOf="@+id/payment" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
