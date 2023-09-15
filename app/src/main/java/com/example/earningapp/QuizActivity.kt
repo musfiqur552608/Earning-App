@@ -28,6 +28,18 @@ class QuizActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        Firebase.database.reference.child("PlayChance").child(Firebase.auth.currentUser!!.uid)
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    currentChance = snapshot.value as Long
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
         questionList = ArrayList<Question>()
 
         var image = intent.getIntExtra("categoryImg", 0)
@@ -98,9 +110,12 @@ class QuizActivity : AppCompatActivity() {
         }
         currentQuestion++
         if (currentQuestion >= questionList.size) {
-            if (score >= (score / (questionList.size * 10)) * 100) {
+            if ((score / (questionList.size * 10)) * 100 >= 60) {
 
                 binding.winner.visibility = View.VISIBLE
+                Firebase.database.reference.child("PlayChance").child(Firebase.auth.currentUser!!.uid).setValue(currentChance+1)
+
+
 
             } else {
                 binding.sorry.visibility = View.VISIBLE
