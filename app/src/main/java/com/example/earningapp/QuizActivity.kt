@@ -2,6 +2,8 @@ package com.example.earningapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import com.example.earningapp.databinding.ActivityQuizBinding
 import com.example.earningapp.model.Question
 import com.example.earningapp.model.User
@@ -19,7 +21,10 @@ class QuizActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityQuizBinding.inflate(layoutInflater)
     }
-    private lateinit var questionList:ArrayList<Question>
+    var currentChance = 0L
+    var currentQuestion = 0
+    var score = 0
+    private lateinit var questionList: ArrayList<Question>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -30,19 +35,18 @@ class QuizActivity : AppCompatActivity() {
         Firebase.firestore.collection("Questions")
             .document(catText.toString())
             .collection("question1")
-            .get().addOnSuccessListener {
-                questionData->
+            .get().addOnSuccessListener { questionData ->
                 questionList.clear()
-                for(data in questionData.documents){
-                    var question:Question? = data.toObject(Question::class.java)
+                for (data in questionData.documents) {
+                    var question: Question? = data.toObject(Question::class.java)
                     questionList.add(question!!)
                 }
-                if(questionList.size > 0){
-                    binding.question.text = questionList.get(0).question
-                    binding.option1.text = questionList.get(0).option1
-                    binding.option2.text = questionList.get(0).option2
-                    binding.option3.text = questionList.get(0).option3
-                    binding.option4.text = questionList.get(0).option4
+                if (questionList.size > 0) {
+                    binding.question.text = questionList.get(currentQuestion).question
+                    binding.option1.text = questionList.get(currentQuestion).option1
+                    binding.option2.text = questionList.get(currentQuestion).option2
+                    binding.option3.text = questionList.get(currentQuestion).option3
+                    binding.option4.text = questionList.get(currentQuestion).option4
                 }
             }
         binding.topic.setImageResource(image)
@@ -56,6 +60,20 @@ class QuizActivity : AppCompatActivity() {
             bottomSheetDialogFragment.show(this.supportFragmentManager, "TEST")
             bottomSheetDialogFragment.enterTransition
         }
+
+        binding.option1.setOnClickListener {
+            nextQuestionAndScoreUpdate(binding.option1.text.toString())
+        }
+        binding.option2.setOnClickListener {
+            nextQuestionAndScoreUpdate(binding.option2.text.toString())
+        }
+        binding.option3.setOnClickListener {
+            nextQuestionAndScoreUpdate(binding.option3.text.toString())
+        }
+        binding.option4.setOnClickListener {
+            nextQuestionAndScoreUpdate(binding.option4.text.toString())
+        }
+
         Firebase.database.reference.child("Users")
             .child(Firebase.auth.currentUser!!.uid)
             .addListenerForSingleValueEvent(
@@ -72,5 +90,28 @@ class QuizActivity : AppCompatActivity() {
 
                 }
             )
+    }
+
+    private fun nextQuestionAndScoreUpdate(s: String) {
+        if (s.equals(questionList.get(currentQuestion).ans)) {
+            score += 10
+        }
+        currentQuestion++
+        if (currentQuestion >= questionList.size) {
+            if (score >= (score / (questionList.size * 10)) * 100) {
+
+                binding.winner.visibility = View.VISIBLE
+
+            } else {
+                binding.sorry.visibility = View.VISIBLE
+            }
+        } else {
+            binding.question.text = questionList.get(currentQuestion).question
+            binding.option1.text = questionList.get(currentQuestion).option1
+            binding.option2.text = questionList.get(currentQuestion).option2
+            binding.option3.text = questionList.get(currentQuestion).option3
+            binding.option4.text = questionList.get(currentQuestion).option4
+        }
+
     }
 }
