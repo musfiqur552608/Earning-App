@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                             binding.emailEtxt.text.toString(),
                             binding.passEtxt.text.toString())
                         Firebase.database.reference.child("Users")
-                            .child(Firebase.auth.currentUser!!.uid).setValue(user)
+                            .child(Firebase.auth.currentUser!!.uid).push().setValue(user)
                             .addOnSuccessListener {
                                 startActivity(Intent(this, HomeActivity::class.java))
                                 finish()

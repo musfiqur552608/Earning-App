@@ -25,7 +25,8 @@ class SpinFragment : Fragment() {
     private lateinit var binding: FragmentSpinBinding
     private lateinit var timer: CountDownTimer
     private val itemTitles = arrayOf("100", "Try Again", "500", "Try Again", "200", "Try Again")
-
+    var currentChance = 0L
+    var currentCoin = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,10 +65,50 @@ class SpinFragment : Fragment() {
 
                 }
             )
+        Firebase.database.reference.child("PlayChance").child(Firebase.auth.currentUser!!.uid)
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.exists()){
+                        currentChance = snapshot.getValue() as Long
+                        binding.spinChance.text = (snapshot.getValue() as Long).toString()
+                    }else{
+                        binding.spinChance.text = 0.toString()
+                        binding.spinBtn.isEnabled = false
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
+        Firebase.database.reference.child("playerCoin").child(Firebase.auth.currentUser!!.uid)
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.exists()){
+                        currentCoin = snapshot.getValue() as Long
+                        binding.coinTxt.text = currentCoin.toString()
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
         return binding.root
     }
-    private fun showResult(itemTitle:String){
+    private fun showResult(itemTitle:String, spin:Int){
+        if(spin%2==0){
+            var winCoin = itemTitle.toInt()
+            Firebase.database.reference.child("playerCoin").child(Firebase.auth.currentUser!!.uid).setValue(winCoin+currentCoin)
+            binding.coinTxt.text = (winCoin+currentCoin).toString()
+        }
         Toast.makeText(requireContext(), itemTitle, Toast.LENGTH_SHORT).show()
+        Firebase.database.reference.child("PlayChance").child(Firebase.auth.currentUser!!.uid).setValue(currentChance-1)
         binding.spinBtn.isEnabled = true
     }
 
@@ -77,23 +118,27 @@ class SpinFragment : Fragment() {
         binding.spinBtn.setOnClickListener{
             binding.spinBtn.isEnabled = false
 
-            val spin = Random().nextInt(6)
-            val degrees = 60f * spin
+            if(currentChance>0){
+                val spin = Random().nextInt(6)
+                val degrees = 60f * spin
 
-            timer = object : CountDownTimer(5000, 50){
-                var rotation = 0f
-                override fun onTick(millisUntilFinished: Long){
-                    rotation += 5f
-                    if(rotation>=degrees){
-                        rotation = degrees
-                        timer.cancel()
-                        showResult(itemTitles[spin])
+                timer = object : CountDownTimer(5000, 50){
+                    var rotation = 0f
+                    override fun onTick(millisUntilFinished: Long){
+                        rotation += 5f
+                        if(rotation>=degrees){
+                            rotation = degrees
+                            timer.cancel()
+                            showResult(itemTitles[spin], spin)
+                        }
+                        binding.spinWheel.rotation = rotation
                     }
-                    binding.spinWheel.rotation = rotation
-                }
 
-                override fun onFinish() {}
-            }.start()
+                    override fun onFinish() {}
+                }.start()
+            }else{
+                Toast.makeText(activity,"Out of your spin chance", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

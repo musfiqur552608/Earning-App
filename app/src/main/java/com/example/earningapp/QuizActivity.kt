@@ -28,10 +28,27 @@ class QuizActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        Firebase.database.reference.child("playerCoin").child(Firebase.auth.currentUser!!.uid)
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.exists()){
+                        var currentCoin = snapshot.getValue() as Long
+                        binding.coinTxt.text = currentCoin.toString()
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
         Firebase.database.reference.child("PlayChance").child(Firebase.auth.currentUser!!.uid)
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    currentChance = snapshot.value as Long
+                    if(snapshot.exists()){
+                        currentChance = snapshot.value as Long
+                    }
 
                 }
 

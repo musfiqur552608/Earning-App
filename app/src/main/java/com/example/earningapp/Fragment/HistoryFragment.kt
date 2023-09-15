@@ -73,6 +73,21 @@ class HistoryFragment : Fragment() {
 
                 }
             )
+        Firebase.database.reference.child("playerCoin").child(Firebase.auth.currentUser!!.uid)
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.exists()){
+                        var currentCoin = snapshot.getValue() as Long
+                        binding.coinTxt.text = currentCoin.toString()
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
         return binding.root
     }
 

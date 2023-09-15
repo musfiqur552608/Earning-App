@@ -6,13 +6,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.earningapp.databinding.HistoryitemBinding
 import com.example.earningapp.model.HistoryModelClass
 
-class HistoryAdaptar(var ListHistory:ArrayList<HistoryModelClass>):RecyclerView.Adapter<HistoryAdaptar.HistoryViewHolder>(){
-    class HistoryViewHolder(var binding: HistoryitemBinding):RecyclerView.ViewHolder(binding.root) {
+class HistoryAdaptar(var ListHistory: ArrayList<HistoryModelClass>) :
+    RecyclerView.Adapter<HistoryAdaptar.HistoryViewHolder>() {
+    class HistoryViewHolder(var binding: HistoryitemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
-        return HistoryViewHolder(HistoryitemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return HistoryViewHolder(
+            HistoryitemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount() = ListHistory.size
