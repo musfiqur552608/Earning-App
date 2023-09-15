@@ -9,7 +9,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.earningapp.WithdrawalFragment
 import com.example.earningapp.databinding.FragmentSpinBinding
+import com.example.earningapp.model.User
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 import java.util.Random
 
 
@@ -40,6 +48,22 @@ class SpinFragment : Fragment() {
             bottomSheetDialogFragment.show(requireActivity().supportFragmentManager, "TEST")
             bottomSheetDialogFragment.enterTransition
         }
+        Firebase.database.reference.child("Users")
+            .child(Firebase.auth.currentUser!!.uid)
+            .addListenerForSingleValueEvent(
+                object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        var user = snapshot.getValue<User>()
+
+                        binding.name.text = user?.name
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                }
+            )
         return binding.root
     }
     private fun showResult(itemTitle:String){

@@ -29,6 +29,7 @@ class CategoryAdapter(
         holder.binding.categorybtn.setOnClickListener {
             var intent = Intent(requireActivity, QuizActivity::class.java)
             intent.putExtra("categoryImg", datalist.catImage)
+            intent.putExtra("questionType", datalist.catText)
             requireActivity.startActivity(intent)
         }
     }
